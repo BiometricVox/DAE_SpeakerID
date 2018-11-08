@@ -20,7 +20,7 @@ def get_DAE(nu=2000):
   return model
 
 # Making dictionary to find blacklist pair between train and test dataset
-bl_match = np.loadtxt('data/bl_matching.csv',dtype='string')
+bl_match = np.loadtxt('data/bl_matching.csv',dtype='str')
 dev2train={}
 dev2id={}
 train2dev={}
@@ -39,7 +39,7 @@ for iter, line in enumerate(bl_match):
     
 # load test set information
 filename = 'data/tst_evaluation_keys.csv'
-tst_info = np.loadtxt(filename,dtype='string',delimiter=',',skiprows=1,usecols=range(0,3))
+tst_info = np.loadtxt(filename,dtype='str',delimiter=',',skiprows=1,usecols=range(0,3))
 tst_trials = []
 tst_trials_label = []
 tst_ground_truth =[]
@@ -108,7 +108,7 @@ dev_bl_embeddings = length_norm(dev_bl_embeddings)
 dev_bg_embeddings = length_norm(dev_bg_embeddings)
 tst_embeddings = length_norm(tst_embeddings)
         
-print '\nDev set score using train set :'
+print('Dev set score using train set :')
 
 # making trials of Dev set
 dev_embeddings = np.append(dev_bl_embeddings, dev_bg_embeddings,axis=0)
@@ -129,7 +129,7 @@ dev_trials_label = np.append( dev_bl_id,dev_bg_id)
 dev_trials_confusion = get_trials_label_with_confusion(dev_identified_label, dev_trials_label, dev2train, dev_trials )
 dev_EER_confusion = calculate_EER_with_confusion(dev_scores,dev_trials_confusion)
 
-print '\nTest set score using train set:'
+print('Test set score using train set:')
 
 #Cosine distance scoring on Test set
 scores = spk_mean.dot(tst_embeddings.transpose())
@@ -146,7 +146,7 @@ tst_trials_confusion = get_trials_label_with_confusion(tst_identified_label, tst
 tst_EER_confusion = calculate_EER_with_confusion(tst_scores,tst_trials_confusion)
 
 
-print '\nTest set score using train + dev set:'
+print('Test set score using train + dev set:')
 
 # get dev set id consistent with Train set
 dev_bl_id_along_trnset = []

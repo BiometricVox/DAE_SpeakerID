@@ -2,7 +2,7 @@ import numpy as np
 from sklearn.metrics import roc_curve
 
 def load_ivector(filename):
-    utt = np.loadtxt(filename,dtype='string',delimiter=',',skiprows=1,usecols=[0])
+    utt = np.loadtxt(filename,dtype='str',delimiter=',',skiprows=1,usecols=[0])
     ivector = np.loadtxt(filename,dtype='float32',delimiter=',',skiprows=1,usecols=range(1,601))
     spk_id = []
     for iter in range(len(utt)):
@@ -54,7 +54,7 @@ def calculate_EER(trials, scores):
     EER_fnr = fnr[np.argmin(np.absolute((fnr-fpr)))]
     EER = 0.5 * (EER_fpr+EER_fnr)
     
-    print "Top S detector EER is %0.2f%%"% (EER*100)
+    print("Top S detector EER is %0.2f%%"% (EER*100))
     return EER
 
 def get_trials_label_with_confusion(identified_label, groundtruth_label,dict4spk,is_trial ):
@@ -111,5 +111,5 @@ def calculate_EER_with_confusion(scores,trials):
     EER_fnr = fnr[np.argmin(np.absolute((fnr-fpr)))]
     EER = 0.5 * (EER_fpr+EER_fnr)
     
-    print "Top 1 detector EER is %0.2f%% (Total confusion error is %d)"% ((EER*100), len(np.nonzero(trials==-1)[0]))
+    print("Top 1 detector EER is %0.2f%% (Total confusion error is %d)"% ((EER*100), len(np.nonzero(trials==-1)[0])))
     return EER
