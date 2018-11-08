@@ -1,3 +1,32 @@
+"""
+This is a Python implementation of the Denoising Autoencoder approach that we proposed for
+the first Multi-target speaker detection and identification Challenge Evaluation (MCE 2018, http://www.mce2018.org)
+
+The basic idea is to train a Denoising Autoencoder to map each individual input ivector
+to the mean of all ivectors from that speaker.
+The aim of this DAE is to compensate for inter-session variability and increase the discriminative power of the ivectors.
+
+You can find our system description for the MCE 2018 challenge here: http://mce.csail.mit.edu/pdfs/BiometricVox_description.pdf
+
+Part of the code has been adapted from the baseline system at: https://github.com/swshon/multi-speakerID.
+
+ Copyright 2018 Roberto Font
+				Biometric Vox S.L.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+"""
+
+from __future__ import print_function
 import numpy as np
 
 from mce_utils import load_ivector, length_norm, make_spkvec, calculate_EER, get_trials_label_with_confusion, calculate_EER_with_confusion
@@ -8,6 +37,7 @@ from keras.layers import Input, Dense, Activation
 from keras import metrics
 from keras import optimizers
 
+# Neural network definition: a single hidden layer with 'tanh' activation and a linear output layer 
 def get_DAE(nu=2000):
   iv_dim = 600
   inputs = Input(shape=(iv_dim,))
@@ -52,7 +82,7 @@ for iter in range(len(tst_info)):
         tst_trials = np.append(tst_trials,1)
     
 
-# Fix random seed to make results reproducible
+# Set random seed to make results reproducible
 seed = 134
 np.random.seed(seed)
 
@@ -75,7 +105,7 @@ train_spk_ids = pd.DataFrame({'spk_ids': trn_bg_id})
 train_ivs = pd.DataFrame(trn_bg_ivector)
 
 X_train = train_ivs.values
-Y_train = (train_ivs.groupby(train_spk_ids['spk_ids']).transform('mean')).as_matrix()
+Y_train = (train_ivs.groupby(train_spk_ids['spk_ids']).transform('mean')).values
 
 # DAE training
 model = get_DAE()

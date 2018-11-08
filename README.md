@@ -44,4 +44,11 @@ Top 1 detector EER is 8.90% (Total confusion error is 257)
 
 Note that these results do not match our official submission to the challenge, were we obtained Top-S EER: 4.33%, Top-1 EER: 6.11%, since our final system was a bit more complex including Probabilistic Linear Discriminant Analysis (PLDA) scoring and Symmetric Normalization (S-Norm).
 
+## Requirements
 
+* Numpy
+* Scikit-learn
+* Pandas
+* Keras
+
+The code should run on both Python 2 and 3.
